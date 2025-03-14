@@ -1,18 +1,15 @@
 class Solution {
     public int solution(int num) {
         int answer = 0;
-        if(num == 1) return 0;
-        while (num != 1){
-            if (num % 2 == 0) {
-                num /= 2;
-            } else if (answer >=450) {
-                return -1;
-            } else {
-                num = num*3+1;
-            }
-            answer++;
+        long collatz=num;
+        
+        for(int i=0; i<500; i++) {
+            if(collatz==1) return i;
+            if(collatz%2==0) collatz/=2;
+            else collatz=collatz*3+1;
         }
-
+        if(collatz != 1) answer = -1;
+        
         return answer;
     }
 }
