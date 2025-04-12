@@ -23,6 +23,7 @@ public class Main {
         long answer = 0;
         while (left <= right) {
             int mid = (left + right) / 2;
+            // 더하다보면 커질 수 있어서 long으로 선언
             long added = 0;
             for (int i = 0; i < N; i++) {
                 // mid가 teamlv보다 크면 teamlv을 더하기
@@ -34,7 +35,7 @@ public class Main {
             if (added <= K) {
                 left = mid + 1;
                 // 해를 구할 때 마다 정답을 저장해둠.
-                answer = Math.max(mid, answer);
+                answer = mid;
             } else {
                 right = mid - 1;
             }
