@@ -3,45 +3,40 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        // 1. N과 K를 입력받는다
+
         int N = sc.nextInt();
         int K = sc.nextInt();
 
-        // 2. 팀원의 레벨을 입력받는다
-        int[] teamlv = new int[N];
-        for (int i = 0; i < N; i++) {
-            teamlv[i] = sc.nextInt();
+        int[] levels = new int[N];
+        for(int i=0; i<N; i++) {
+            levels[i] = sc.nextInt();
         }
+        sc.close();
 
-        // 이분탐색을 위해 정렬
-        Arrays.sort(teamlv);
+        Arrays.sort(levels);
 
-        // 3. 팀 목표레벨의 최소값 : 가장 작은 팀 레벨 + 0;
-        int left = teamlv[0];
-        // 팀 목표레벨의 최대값 : 가장 작은 팀 레벨 + K;
-        int right = teamlv[0] + K;
-        long answer = 0;
-        while (left <= right) {
-            int mid = (left + right) / 2;
-            // 더하다보면 커질 수 있어서 long으로 선언
+        int left = levels[0];
+        int right = levels[0] + K;
+        int answer = 0;
+
+        while(left<=right) {
+            int mid = (left+right)/2;
             long added = 0;
-            for (int i = 0; i < N; i++) {
-                // mid가 teamlv보다 크면 teamlv을 더하기
-                if (mid > teamlv[i]) {
-                    added += mid - teamlv[i];
-                }
+
+            for(int i=0; i<N; i++) {
+                if(levels[i]<mid) added += mid-levels[i];
             }
-            // 더한 레벨은 K보다 작거나 같아야함.-> 더 높은 레벨도 가능한지 확인
-            if (added <= K) {
-                left = mid + 1;
-                // 해를 구할 때 마다 정답을 저장해둠.
-                answer = mid;
-            } else {
+
+            if(added>K) {
                 right = mid - 1;
             }
+            else {
+                left = mid + 1;
+                answer = mid;
+            }
         }
-        System.out.println(answer);
 
+        System.out.println(answer);
     }
 }
 
