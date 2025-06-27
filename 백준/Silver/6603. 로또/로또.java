@@ -1,49 +1,46 @@
-import java.io.*;
 import java.util.*;
- 
+
 public class Main {
-	
-	public static int k, S;
-	public static int answer = 0;
-	public static int[] arr;
-	public static boolean[] visited;
-	public static int[] answerArr;
-    public static void main(String[] args) throws IOException{
-    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    	
-    	answerArr = new int[6];
-    	while(true) {
-    		StringTokenizer st = new StringTokenizer(br.readLine());
-    		k = Integer.parseInt(st.nextToken());
-    		if(k == 0) 
-    			break;
-    		
-    		arr = new int[k];
-    		visited = new boolean[k];
-    		for(int i=0;i<k;i++) {
-    			arr[i] = Integer.parseInt(st.nextToken());
-    		}
-    		
-    		simulate(0, 0);
-    		System.out.println();
-    	}
+    static int[] arr;
+    static final int LOTTO_NUM = 6;
+    static StringBuilder sb;
+    static int[] lotto = new int[6];
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        sb = new StringBuilder();
+
+        while (true) {
+            int N = sc.nextInt();
+            if (N == 0)
+                break;
+
+            arr = new int[N];
+
+            for (int i = 0; i < N; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            backtrack(0, 0);
+            sb.append("\n");
+        }
+        sc.close();
+
+        System.out.println(sb);
     }
-    
-    public static void simulate(int idx, int level) {
-    	if(level == 6) {
-    		for(int i=0;i<6;i++) {
-    			System.out.print(answerArr[i]+" ");
-    		}
-    		System.out.println();
-    		return ;
-    	}
-    	for(int i=idx;i<k;i++) {
-    		if(visited[i] == false) {
-    			visited[i] = true;
-    			answerArr[level] = arr[i];
-    			simulate(i+1, level + 1);
-    			visited[i] = false;
-    		}
-    	}
+
+    private static void backtrack(int depth, int index) {
+        if (depth == 6) {
+            for (int i = 0; i < LOTTO_NUM; i++) {
+                sb.append(lotto[i] + " ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        for (int i = index; i < arr.length; i++) {
+            lotto[depth] = arr[i];
+            backtrack(depth + 1, i + 1);
+        }
     }
 }
