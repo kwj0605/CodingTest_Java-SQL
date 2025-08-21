@@ -15,42 +15,45 @@ class Point implements Comparable<Point> {
     }
 }
 
-public class Main {
+class Main {
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
         int n = sc.nextInt();
+
         Point[] points = new Point[n];
 
         for (int i = 0; i < n; i++) {
             points[i] = new Point(sc.nextInt(), sc.nextInt());
         }
+        sc.close();
 
-        Arrays.sort(points);
+        Arrays.sort(points); // x값 순으로 오름차순 정렬
 
         long minArea = Long.MAX_VALUE;
 
         for (int i = 0; i < n; i++) {
             for (int j = i; j < n; j++) {
-                // x좌표 경계 (points[i].x, points[j].x)
                 int width = points[j].x - points[i].x;
 
-                // y좌표를 담을 리스트
                 List<Integer> yCoords = new ArrayList<>();
-                for (int k = 0; k < n; k++) {
-                    // x좌표 경계 안에 있는 점들의 y좌표만 모음
+
+                for (int k = 0; k < n; k++) { // i번째와 j번째 x값 사이에 있는 좌표의 y값을 구함
                     if (points[k].x >= points[i].x && points[k].x <= points[j].x) {
                         yCoords.add(points[k].y);
                     }
                 }
-                Collections.sort(yCoords);
 
-                // 투 포인터로 y좌표 경계 찾기
-                if (yCoords.size() < n / 2) continue;
+                if (yCoords.size() < n / 2) // y좌표가 n/2보다 적으면 좌표갯수가 부족하므로 다시
+                    continue;
 
-                for (int k = 0; k <= yCoords.size() - n / 2; k++) {
+                Collections.sort(yCoords); // y값 오름차순 정렬
+
+                for (int k = 0; k <= yCoords.size() - n / 2; k++) { // y좌표에서 가장 큰 것과 작은 것을 구하면서 height를 구함
                     int height = yCoords.get(k + n / 2 - 1) - yCoords.get(k);
-                    long area = (long) (width + 2) * (height + 2); // 직사각형 내부 조건
-                    minArea = Math.min(minArea, area);
+                    long area = (long) (width + 2) * (height + 2);
+                    minArea = Math.min(minArea, area); // 최소 넓이를 구함
                 }
             }
         }
